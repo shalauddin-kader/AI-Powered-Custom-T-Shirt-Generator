@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +25,11 @@ const TShirtGenerator: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [responseMessage, setResponseMessage] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+
+  // Handler function for size selection
+  const handleSizeChange = (value: "S" | "M" | "L" | "XL" | "XXL") => {
+    setSize(value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,11 +80,7 @@ const TShirtGenerator: React.FC = () => {
 
           <div>
             <Label htmlFor="size">Select Size</Label>
-              <Select onValueChange={(value) => {
-                  if (["S", "M", "L", "XL", "XXL"].includes(value)) {
-                      setSize(value as "S" | "M" | "L" | "XL" | "XXL");
-                  }
-              }}>
+              <Select onValueChange={handleSizeChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select size" />
               </SelectTrigger>
