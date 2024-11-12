@@ -75,7 +75,7 @@ const TShirtGenerator: React.FC = () => {
 
           <div>
             <Label htmlFor="size">Select Size</Label>
-              <Select onValueChange={(value) => setSize(value as "S" | "M" | "L" | "XL" | "XXL")}>
+                <Select onValueChange={(value) => setSize(value as SetStateAction<"S" | "M" | "L" | "XL" | "XXL">)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select size" />
               </SelectTrigger>
