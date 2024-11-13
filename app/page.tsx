@@ -1,36 +1,34 @@
-"use client";
-
-import { useState } from "react";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-
-// Define a type for the size options
+// Define possible size options
 type SizeOptions = "S" | "M" | "L" | "XL" | "XXL";
 
-export default function Page() {
-  // Initialize state with type constraint
-  const [size, setSize] = useState<SizeOptions>("M");
+// Initialize state with a default size
+const [size, setSize] = useState<SizeOptions>("M");
 
-  // Wrapper function to handle value change
-  const handleSizeChange = (value: string) => {
-    setSize(value as SizeOptions);
-  };
+// Conversion function to safely set size with correct type
+const handleSizeChange = (value: string) => {
+    // Check if the value is a valid size option
+    if (["S", "M", "L", "XL", "XXL"].includes(value)) {
+        setSize(value as SizeOptions);
+    } else {
+        console.warn("Invalid size option selected:", value);
+    }
+};
 
-  return (
+return (
     <div>
-      <Label htmlFor="size">Select Size</Label>
-      <Select onValueChange={handleSizeChange}> {/* Use wrapper function */}
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Select size" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="S">Small</SelectItem>
-          <SelectItem value="M">Medium</SelectItem>
-          <SelectItem value="L">Large</SelectItem>
-          <SelectItem value="XL">Extra Large</SelectItem>
-          <SelectItem value="XXL">2X Large</SelectItem>
-        </SelectContent>
-      </Select>
+        <Label htmlFor="size">Select Size</Label>
+        {/* Use handleSizeChange to ensure typing compliance */}
+        <Select onValueChange={handleSizeChange}>
+            <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select size" />
+            </SelectTrigger>
+            <SelectContent>
+                <SelectItem value="S">S</SelectItem>
+                <SelectItem value="M">M</SelectItem>
+                <SelectItem value="L">L</SelectItem>
+                <SelectItem value="XL">XL</SelectItem>
+                <SelectItem value="XXL">XXL</SelectItem>
+            </SelectContent>
+        </Select>
     </div>
-  );
-}
+);
