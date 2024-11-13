@@ -1,12 +1,14 @@
-import { useState } from 'react';
-import { Select, SelectTrigger, SelectValue } from 'path-to-your-select-components';
-import { Label } from 'path-to-your-label-component';
+"use client";
 
-const Page = () => {
-  // Define the state to hold the selected size, restricted to certain values
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+export default function Page() {
+  // Define state with specific size options
   const [size, setSize] = useState<"S" | "M" | "L" | "XL" | "XXL">("M");
 
-  // Handler for the onValueChange event with explicit typing for compatibility
+  // Wrapper function to ensure only specific values are passed to setSize
   const handleSizeChange = (value: string) => {
     if (["S", "M", "L", "XL", "XXL"].includes(value)) {
       setSize(value as "S" | "M" | "L" | "XL" | "XXL");
@@ -16,22 +18,18 @@ const Page = () => {
   return (
     <div>
       <Label htmlFor="size">Select Size</Label>
-      {/* Updated Select component to use the handleSizeChange function */}
       <Select onValueChange={handleSizeChange}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select size" />
         </SelectTrigger>
-        {/* Define options for each size */}
-        <div className="select-options">
-          <div onClick={() => handleSizeChange("S")}>S</div>
-          <div onClick={() => handleSizeChange("M")}>M</div>
-          <div onClick={() => handleSizeChange("L")}>L</div>
-          <div onClick={() => handleSizeChange("XL")}>XL</div>
-          <div onClick={() => handleSizeChange("XXL")}>XXL</div>
-        </div>
+        <SelectContent>
+          <SelectItem value="S">Small</SelectItem>
+          <SelectItem value="M">Medium</SelectItem>
+          <SelectItem value="L">Large</SelectItem>
+          <SelectItem value="XL">Extra Large</SelectItem>
+          <SelectItem value="XXL">2X Large</SelectItem>
+        </SelectContent>
       </Select>
     </div>
   );
-};
-
-export default Page;
+}
