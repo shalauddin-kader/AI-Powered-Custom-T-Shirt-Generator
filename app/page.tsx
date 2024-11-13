@@ -4,17 +4,17 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-export default function Page() {
-  // State with size options as specific union type
-  const [size, setSize] = useState<"S" | "M" | "L" | "XL" | "XXL">("M");
+// Define a type for the size options
+type SizeOptions = "S" | "M" | "L" | "XL" | "XXL";
 
-  // Wrapper function to ensure value matches the size type
+export default function Page() {
+  // Initialize state with type constraint
+  const [size, setSize] = useState<SizeOptions>("M");
+
+  // New handler to explicitly match types
   const handleSizeChange = (value: string) => {
-    // Type guard to check if value is one of the valid sizes
     if (["S", "M", "L", "XL", "XXL"].includes(value)) {
-      setSize(value as "S" | "M" | "L" | "XL" | "XXL");  // Type assertion
-    } else {
-      console.warn("Invalid size selected:", value);
+      setSize(value as SizeOptions); // Assert as SizeOptions to match setSize's expected type
     }
   };
 
