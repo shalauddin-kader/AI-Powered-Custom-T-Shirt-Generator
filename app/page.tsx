@@ -11,10 +11,15 @@ export default function Page() {
   // Initialize state with type constraint
   const [size, setSize] = useState<SizeOptions>("M");
 
+  // Wrapper function to handle value change
+  const handleSizeChange = (value: string) => {
+    setSize(value as SizeOptions);
+  };
+
   return (
     <div>
       <Label htmlFor="size">Select Size</Label>
-      <Select onValueChange={(value) => setSize(value as SizeOptions)}> {/* Inline casting */}
+      <Select onValueChange={handleSizeChange}> {/* Use wrapper function */}
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select size" />
         </SelectTrigger>
