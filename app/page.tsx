@@ -8,10 +8,10 @@ export default function Page() {
   // Define state with specific size options
   const [size, setSize] = useState<"S" | "M" | "L" | "XL" | "XXL">("M");
 
-  // Handler function that ensures only valid sizes are set
+  // Wrapper function to handle the type conversion
   const handleSizeChange = (value: string) => {
     if (["S", "M", "L", "XL", "XXL"].includes(value)) {
-      setSize(value as "S" | "M" | "L" | "XL" | "XXL");
+      setSize(value as "S" | "M" | "L" | "XL" | "XXL");  // Type assertion
     }
   };
 
