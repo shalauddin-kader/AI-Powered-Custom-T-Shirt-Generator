@@ -1,116 +1,37 @@
-'use client';
-import React, { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from 'react';
+import { Select, SelectTrigger, SelectValue } from 'path-to-your-select-components';
+import { Label } from 'path-to-your-label-component';
 
-interface TShirtDesignRequest {
-  prompt: string; // User input text to generate an image
-  size: 'S' | 'M' | 'L' | 'XL' | 'XXL'; // Selected T-shirt size
-  color: string; // Selected T-shirt color
-}
+const Page = () => {
+  // Define the state to hold the selected size, restricted to certain values
+  const [size, setSize] = useState<"S" | "M" | "L" | "XL" | "XXL">("M");
 
-interface TShirtDesignResponse {
-  imageUrl: string; // URL of the generated AI image for the T-shirt
-  message: string; // Success message or error information
-}
-
-const TShirtGenerator: React.FC = () => {
-  const [prompt, setPrompt] = useState<string>("");
-  const [size, setSize] = useState<'S' | 'M' | 'L' | 'XL' | 'XXL'>('M');
-  const [color, setColor] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [responseMessage, setResponseMessage] = useState<string>("");
-  const [imageUrl, setImageUrl] = useState<string>("");
-
-  // Handler function for size selection
-  const handleSizeChange = (value: "S" | "M" | "L" | "XL" | "XXL") => {
-    setSize(value);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setResponseMessage("");
-    
-    const requestBody: TShirtDesignRequest = { prompt, size, color };
-    
-    try {
-      const response = await fetch('/api', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestBody),
-      });
-
-      const data: TShirtDesignResponse = await response.json();
-      
-      if (response.ok) {
-        setImageUrl(data.imageUrl);
-        setResponseMessage(data.message);
-      } else {
-        setResponseMessage(data.message);
-      }
-    } catch (error) {
-      setResponseMessage("An error occurred while generating the image.");
-    } finally {
-      setLoading(false);
+  // Handler for the onValueChange event with explicit typing for compatibility
+  const handleSizeChange = (value: string) => {
+    if (["S", "M", "L", "XL", "XXL"].includes(value)) {
+      setSize(value as "S" | "M" | "L" | "XL" | "XXL");
     }
   };
 
   return (
-    <Card className="p-6">
-      <CardHeader>
-        <CardTitle>AI-Powered Custom T-Shirt Generator</CardTitle>
-        <CardDescription>Generate a custom T-shirt with your unique design!</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
-          <div>
-            <Label htmlFor="prompt">Your Design Prompt</Label>
-            <Input 
-              id="prompt" 
-              value={prompt} 
-              onChange={(e) => setPrompt(e.target.value)} 
-              placeholder="Enter your design prompt here..." 
-            />
-          </div>
-
-          <div>
-            <Label htmlFor="size">Select Size</Label>
-              <Select onValueChange={handleSizeChange}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select size" />
-              </SelectTrigger>
-              <SelectContent>
-                {['S', 'M', 'L', 'XL', 'XXL'].map((sizeOption) => (
-                  <SelectItem key={sizeOption} value={sizeOption}>{sizeOption}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <Label htmlFor="color">T-Shirt Color</Label>
-            <Input 
-              id="color" 
-              value={color} 
-              onChange={(e) => setColor(e.target.value)} 
-              placeholder="Enter color (e.g., red, blue)" 
-            />
-          </div>
-
-          <Button type="submit" disabled={loading}>
-            {loading ? "Generating..." : "Generate T-Shirt"}
-          </Button>
-        </form>
-        {responseMessage && <p className="mt-4">{responseMessage}</p>}
-        {imageUrl && <img src={imageUrl} alt="Generated T-Shirt Design" className="mt-4 rounded-md" />}
-      </CardContent>
-    </Card>
+    <div>
+      <Label htmlFor="size">Select Size</Label>
+      {/* Updated Select component to use the handleSizeChange function */}
+      <Select onValueChange={handleSizeChange}>
+        <SelectTrigger className="w-full">
+          <SelectValue placeholder="Select size" />
+        </SelectTrigger>
+        {/* Define options for each size */}
+        <div className="select-options">
+          <div onClick={() => handleSizeChange("S")}>S</div>
+          <div onClick={() => handleSizeChange("M")}>M</div>
+          <div onClick={() => handleSizeChange("L")}>L</div>
+          <div onClick={() => handleSizeChange("XL")}>XL</div>
+          <div onClick={() => handleSizeChange("XXL")}>XXL</div>
+        </div>
+      </Select>
+    </div>
   );
 };
 
-export default TShirtGenerator;
+export default Page;
