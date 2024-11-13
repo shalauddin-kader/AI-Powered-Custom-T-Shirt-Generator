@@ -11,17 +11,18 @@ export default function Page() {
   // Initialize state with type constraint
   const [size, setSize] = useState<SizeOptions>("M");
 
-  // New handler to explicitly match types
+  // Handler to ensure value is a valid SizeOptions type
   const handleSizeChange = (value: string) => {
+    // Type guard for valid size options
     if (["S", "M", "L", "XL", "XXL"].includes(value)) {
-      setSize(value as SizeOptions); // Assert as SizeOptions to match setSize's expected type
+      setSize(value as SizeOptions); // Explicitly cast value as SizeOptions
     }
   };
 
   return (
     <div>
       <Label htmlFor="size">Select Size</Label>
-      <Select onValueChange={handleSizeChange}>
+      <Select onValueChange={handleSizeChange}> {/* Use handleSizeChange here */}
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select size" />
         </SelectTrigger>
