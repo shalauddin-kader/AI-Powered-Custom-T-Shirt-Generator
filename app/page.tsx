@@ -4,21 +4,19 @@ type SizeOptions = "S" | "M" | "L" | "XL" | "XXL";
 // Initialize state with a default size
 const [size, setSize] = useState<SizeOptions>("M");
 
-// Conversion function to safely set size with correct type
-const handleSizeChange = (value: string) => {
-    // Check if the value is a valid size option
+// Wrapper function to enforce string compatibility and type casting
+const handleSizeSelect = (value: string) => {
+    // Cast to SizeOptions if it matches the defined options
     if (["S", "M", "L", "XL", "XXL"].includes(value)) {
         setSize(value as SizeOptions);
-    } else {
-        console.warn("Invalid size option selected:", value);
     }
 };
 
 return (
     <div>
         <Label htmlFor="size">Select Size</Label>
-        {/* Use handleSizeChange to ensure typing compliance */}
-        <Select onValueChange={handleSizeChange}>
+        {/* Pass handleSizeSelect to ensure typing compatibility */}
+        <Select onValueChange={handleSizeSelect}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select size" />
             </SelectTrigger>
