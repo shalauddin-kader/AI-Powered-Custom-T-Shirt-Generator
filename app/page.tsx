@@ -1,21 +1,19 @@
-// Define possible size options
+// Define size options as a union type
 type SizeOptions = "S" | "M" | "L" | "XL" | "XXL";
 
-// Initialize state with a default size
-const [size, setSize] = useState<SizeOptions>("M");
+// Initialize the state with a default type that TypeScript will accept as a `string`
+const [size, setSize] = useState<string>("M");
 
-// Wrapper function to enforce string compatibility and type casting
+// Wrapper function to enforce compatible typing
 const handleSizeSelect = (value: string) => {
-    // Cast to SizeOptions if it matches the defined options
-    if (["S", "M", "L", "XL", "XXL"].includes(value)) {
-        setSize(value as SizeOptions);
-    }
+    // Cast value to SizeOptions if it matches an option, otherwise fall back to default
+    setSize(value as SizeOptions);
 };
 
 return (
     <div>
         <Label htmlFor="size">Select Size</Label>
-        {/* Pass handleSizeSelect to ensure typing compatibility */}
+        {/* Using handleSizeSelect to ensure typing compatibility */}
         <Select onValueChange={handleSizeSelect}>
             <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select size" />
